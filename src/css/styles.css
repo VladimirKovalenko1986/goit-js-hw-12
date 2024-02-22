@@ -183,7 +183,7 @@ ul {
 
 /* LODER */
 
-.conteiner-loader {
+/* .conteiner-loader {
   width: 100%;
   height: 800px;
 
@@ -246,7 +246,7 @@ ul {
   100% {
     clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0);
   }
-}
+} */
 
 /* Hidden */
 

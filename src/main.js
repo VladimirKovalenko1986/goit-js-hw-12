@@ -24,12 +24,14 @@ const refs = {
 refs.formSearch.addEventListener('submit', onFormSearch);
 refs.btnLoadMore.addEventListener('click', onLoadMoreSearch);
 
-spinnerHide();
+// spinnerHide();
 
 async function onFormSearch(e) {
   e.preventDefault();
+
   newApiSearch.searchQuery = e.currentTarget.elements.searchQuery.value.trim();
-  spinnerShow();
+  onShowTextStatusLoading();
+  //   spinnerShow();
   clearNewList();
   newApiSearch.resetPage();
 
@@ -42,7 +44,8 @@ async function onFormSearch(e) {
     refs.listForm.innerHTML = createMarkup(hits);
 
     onShowLoadMoreBtn();
-    spinnerHide();
+    onHideTextStatusLoading();
+    // spinnerHide();
     gallery.refresh();
   } catch {
     errorSearch();
@@ -92,7 +95,8 @@ function errorSearch(err) {
       'Sorry, there are no images matching your search query. Please try again!',
   });
 
-  spinnerHide();
+  //   spinnerHide();
+  onHideTextStatusLoading();
   onHideLoadBtn();
 }
 
@@ -108,13 +112,13 @@ function errorEndApi() {
 
 // Status spinner
 
-function spinnerHide() {
-  refs.spinner.classList.add('hidden');
-}
+// function spinnerHide() {
+//   refs.spinner.classList.add('hidden');
+// }
 
-function spinnerShow() {
-  refs.spinner.classList.remove('hidden');
-}
+// function spinnerShow() {
+//   refs.spinner.classList.remove('hidden');
+// }
 
 // Status Button load More
 
