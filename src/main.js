@@ -30,6 +30,7 @@ async function onFormSearch(e) {
   e.preventDefault();
 
   newApiSearch.searchQuery = e.currentTarget.elements.searchQuery.value.trim();
+  onHideLoadBtn();
   onShowTextStatusLoading();
   clearNewList();
   newApiSearch.resetPage();
@@ -47,7 +48,7 @@ async function onFormSearch(e) {
       throw new Error('Data end!');
     } else {
       onHideTextStatusLoading();
-      //   onShowLoadMoreBtn();
+      onShowLoadMoreBtn();
 
       gallery.refresh();
     }
