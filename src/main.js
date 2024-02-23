@@ -31,45 +31,54 @@ async function onFormSearch(e) {
 
   newApiSearch.searchQuery = e.currentTarget.elements.searchQuery.value.trim();
   onShowTextStatusLoading();
-  //   spinnerShow();
   clearNewList();
   newApiSearch.resetPage();
 
   try {
     const { hits } = await newApiSearch.getNews(newApiSearch.searchQuery);
+
     if (!hits.length || !newApiSearch.searchQuery) {
-      throw new Error('No data');
+      throw new Error('No more data');
     }
 
     refs.listForm.innerHTML = createMarkup(hits);
 
-    onShowLoadMoreBtn();
-    onHideTextStatusLoading();
-    // spinnerHide();
-    gallery.refresh();
-  } catch {
-    errorSearch();
+    if (newApiSearch.perPage > hits.length) {
+      throw new Error('Data end!');
+    } else {
+      onHideTextStatusLoading();
+      onShowLoadMoreBtn();
+      gallery.refresh();
+    }
+  } catch (error) {
+    if (error.message === 'Data end!') {
+      errorEndApi();
+    } else {
+      errorSearch();
+    }
   } finally {
     clearFormSearch();
   }
 }
 
 async function onLoadMoreSearch() {
-  onHideLoadBtn();
   onShowTextStatusLoading();
+  onHideLoadBtn();
+
   try {
     const { hits, totalHits } = await newApiSearch.getNews(
       newApiSearch.searchQuery
     );
-    const totalPage = Math.ceil(totalHits / hits);
+    const totalPage = Math.ceil(totalHits / hits.length);
+    console.log(totalPage);
     if (totalPage === newApiSearch.queryPage) {
       throw new Error('Data end!');
     }
 
     refs.listForm.insertAdjacentHTML('beforeend', createMarkup(hits));
     windowScroll();
-    onShowLoadMoreBtn();
     onHideTextStatusLoading();
+    onShowLoadMoreBtn();
 
     gallery.refresh();
   } catch {
@@ -87,7 +96,7 @@ function clearNewList() {
 
 // Error status
 
-function errorSearch(err) {
+function errorSearch() {
   iziToast.error({
     position: 'topRight',
     title: 'Error Search',
