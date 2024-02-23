@@ -47,7 +47,8 @@ async function onFormSearch(e) {
       throw new Error('Data end!');
     } else {
       onHideTextStatusLoading();
-      onShowLoadMoreBtn();
+      //   onShowLoadMoreBtn();
+
       gallery.refresh();
     }
   } catch (error) {
